@@ -27,8 +27,15 @@ function loadPosts() {
             data.forEach(post => {
                 const postDiv = document.createElement('div');
                 postDiv.className = 'post';
-                postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>
-                <button onclick="deletePost(${post.id})">Delete</button>`;
+                postDiv.innerHTML = `
+                <h2>${post.title}</h2>
+                <p>${post.content}</p>
+                <p>Author: ${post.author}</p>
+                <p>Date: ${post.date}</p>
+                <div class="buttons-wrapper">
+                <button class="post-update" onclick="updatePost(event, ${post.id})">Update</button>
+                <button class="post-delete" (${post.id})">Delete</button>
+                </div>`;
                 postContainer.appendChild(postDiv);
             });
         })
@@ -69,4 +76,54 @@ function deletePost(postId) {
         loadPosts(); // Reload the posts after deleting one
     })
     .catch(error => console.error('Error:', error));  // If an error occurs, log it to the console
+}
+
+function updatePost(event, postId) {
+    // Get the post container by using the closest element with class 'post'
+    var postDiv = event.target.closest('.post');
+    
+    // Retrieve the current title, content, author, and date from the post display
+    var currentTitle = postDiv.querySelector('h2').innerText;
+    var paragraphs = postDiv.querySelectorAll('p');
+    var currentContent = paragraphs[0].innerText;
+    var currentAuthor = paragraphs[1].innerText.replace("Author: ", "");
+    var currentDate = paragraphs[2].innerText.replace("Date: ", "");
+
+    // Replace the post content with an editable form
+    postDiv.innerHTML = `
+        <div class="post-edit">
+        <input type="text" id="edit-title-${postId}" value="${currentTitle}">
+        <textarea id="edit-content-${postId}">${currentContent}</textarea>
+        <input type="text" id="edit-author-${postId}" value="${currentAuthor}">
+        <input type="text" id="edit-date-${postId}" value="${currentDate}">
+        <button class="save-button" onclick="saveUpdatedPost(${postId})">Save</button>
+        <button onclick="loadPosts()">Cancel</button>
+        </div>
+    `;
+}
+
+function saveUpdatedPost(postId) {
+    var baseUrl = document.getElementById('api-base-url').value;
+    var updatedTitle = document.getElementById(`edit-title-${postId}`).value;
+    var updatedContent = document.getElementById(`edit-content-${postId}`).value;
+    var updatedAuthor = document.getElementById(`edit-author-${postId}`).value;
+    var updatedDate = document.getElementById(`edit-date-${postId}`).value;
+
+    // Use the Fetch API to send a PUT request with the updated post data
+    fetch(baseUrl + '/posts/' + postId, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            title: updatedTitle, 
+            content: updatedContent, 
+            author: updatedAuthor, 
+            date: updatedDate 
+        })
+    })
+    .then(response => response.json())
+    .then(post => {
+        console.log('Post updated:', post);
+        loadPosts(); // Reload the posts to reflect the updated posts.json
+    })
+    .catch(error => console.error('Error:', error));
 }

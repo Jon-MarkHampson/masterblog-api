@@ -1,0 +1,191 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Masterblog API",
+    "description": "A simple API for managing blog posts: create, read, update, delete, sort, and search.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "paths": {
+    "/posts": {
+      "get": {
+        "summary": "Get all posts",
+        "description": "Returns all blog posts. Supports optional sorting by title or content.",
+        "parameters": [
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort by 'title' or 'content'",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "description": "Sort direction: 'asc' or 'desc'",
+            "required": false,
+            "type": "string",
+            "default": "asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of posts",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Post" }
+            }
+          },
+          "400": {
+            "description": "Invalid sort field or direction"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new post",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Post object to create",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PostInput" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Post created successfully",
+            "schema": { "$ref": "#/definitions/Post" }
+          },
+          "400": {
+            "description": "Invalid post data"
+          }
+        }
+      }
+    },
+    "/posts/{id}": {
+      "put": {
+        "summary": "Update an existing post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Post object with updated title or content",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PostInput" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post updated successfully",
+            "schema": { "$ref": "#/definitions/Post" }
+          },
+          "400": {
+            "description": "No data provided"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": { "type": "string" }
+              }
+            }
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      }
+    },
+    "/posts/search": {
+      "get": {
+        "summary": "Search posts",
+        "description": "Search posts by title or content. Both parameters are optional.",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "description": "Search string for title",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "content",
+            "in": "query",
+            "description": "Search string for content",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Filtered list of posts",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Post" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Post": {
+      "type": "object",
+      "required": ["id", "title", "content"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "example": 1
+        },
+        "title": {
+          "type": "string",
+          "example": "First post"
+        },
+        "content": {
+          "type": "string",
+          "example": "This is the first post."
+        }
+      }
+    },
+    "PostInput": {
+      "type": "object",
+      "required": ["title", "content"],
+      "properties": {
+        "title": {
+          "type": "string",
+          "example": "New Blog Title"
+        },
+        "content": {
+          "type": "string",
+          "example": "This is the content of the new blog post."
+        }
+      }
+    }
+  }
+}
