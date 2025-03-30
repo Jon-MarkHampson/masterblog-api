@@ -1,3 +1,4 @@
+import os
 import json
 from datetime import datetime
 from flask import Flask, jsonify, request
@@ -7,7 +8,7 @@ from flask_swagger_ui import get_swaggerui_blueprint
 app = Flask(__name__)
 CORS(app)  # This will enable CORS for all routes
 
-posts_PATH = 'posts.json'
+POSTS_PATH = os.path.join(os.path.dirname(__file__), 'posts.json')
 SWAGGER_URL = "/api/docs"  # (1) swagger endpoint e.g. HTTP://localhost:5002/api/docs
 API_URL = "/static/masterblog.json"  # (2) ensure you create this dir and file
 
@@ -23,14 +24,14 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 def load_posts():
     try:
-        with open(posts_PATH, 'r') as handle:
+        with open(POSTS_PATH, 'r') as handle:
             return json.load(handle)
     except FileNotFoundError:
         return []
     
 def save_posts(posts):
     try:
-        with open(posts_PATH, 'w') as handle:
+        with open(POSTS_PATH, 'w') as handle:
             json.dump(posts, handle, indent=4)
     except Exception as e:
         print(f"Error saving posts: {e}")
