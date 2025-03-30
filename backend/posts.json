@@ -21,7 +21,7 @@
         "content": "Begin by exploring our documentation and checking out the example projects.",
         "author": "Jane Doe",
         "date": "2023-10-04",
-        "likes": 0
+        "likes": 1
     },
     {
         "id": 4,
@@ -29,7 +29,7 @@
         "content": "Break work into focused sprints and avoid multitasking to stay efficient.",
         "author": "John Smith",
         "date": "2024-02-06",
-        "likes": 0
+        "likes": 1
     },
     {
         "id": 5,
@@ -90,6 +90,14 @@
     {
         "title": "This is a test",
         "content": "Testing if placeholder text comes back",
+        "author": "JM",
+        "date": "2025-03-30",
+        "id": 13,
+        "likes": 0
+    },
+    {
+        "title": "Codio Test",
+        "content": "Does it work on codio?",
         "author": "JM",
         "date": "2025-03-30",
         "id": 13,

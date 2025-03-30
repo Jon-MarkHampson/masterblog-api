@@ -6,7 +6,7 @@ from flask_cors import CORS
 from flask_swagger_ui import get_swaggerui_blueprint
 
 app = Flask(__name__)
-CORS(app)  # This will enable CORS for all routes
+CORS(app)
 
 POSTS_PATH = os.path.join(os.path.dirname(__file__), 'posts.json')
 SWAGGER_URL = "/api/docs"  # (1) swagger endpoint e.g. HTTP://localhost:5002/api/docs
@@ -23,6 +23,7 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 
 def load_posts():
+    """Load posts from the JSON file."""
     try:
         with open(POSTS_PATH, 'r') as handle:
             return json.load(handle)
@@ -30,6 +31,7 @@ def load_posts():
         return []
     
 def save_posts(posts):
+    """Save posts to the JSON file."""
     try:
         with open(POSTS_PATH, 'w') as handle:
             json.dump(posts, handle, indent=4)
@@ -38,6 +40,12 @@ def save_posts(posts):
 
 @app.route('/api/posts', methods=['GET', 'POST'])
 def get_posts():
+    """ Handle GET and POST requests for posts.
+    GET: Returns all posts, optionally sorted by a specified field.
+    POST: Creates a new post with the provided data.
+    """
+    
+    # Load posts from file instead of relying on a global variable.
     posts = load_posts()
     if request.method == 'POST':
         new_post = request.get_json()
@@ -75,6 +83,9 @@ def get_posts():
 
 @app.route('/api/posts/<int:post_id>/like', methods=['GET'])
 def like_post(post_id):
+    """Like a post by its ID.
+    Increments the likes count for the specified post."""
+    
     posts = load_posts()
     post_to_like = next((post for post in posts if post['id'] == post_id), None)
     if post_to_like is None:
@@ -88,6 +99,11 @@ def like_post(post_id):
 
 @app.route('/api/posts/<int:post_id>', methods=['DELETE', 'PUT'])
 def handle_posts(post_id):
+    """Handle PUT and DELETE requests for a specific post by its ID.
+    PUT: Updates the post with the provided data.
+    DELETE: Deletes the post with the specified ID."""
+    
+    # Load posts from file instead of relying on a global variable.
     posts = load_posts()
     post_to_update = next((post for post in posts if post['id'] == post_id), None)
     if post_to_update is None:
@@ -122,6 +138,9 @@ def handle_posts(post_id):
 
 @app.route('/api/posts/search', methods=['GET'])
 def search_posts():
+    """ Search for posts based on query parameters.
+    Supports searching by title, content, author, and date."""
+    
     # Load posts from file instead of relying on a global variable.
     posts = load_posts()
     title_query = request.args.get('title', '')
@@ -142,7 +161,6 @@ def search_posts():
     ]
     
     return jsonify(filtered_posts)
-
 
 
 if __name__ == '__main__':
