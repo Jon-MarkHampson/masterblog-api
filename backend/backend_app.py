@@ -52,6 +52,8 @@ def get_posts():
             return jsonify({"error": "Invalid date format. Expected YYYY-MM-DD"}), 400
         
         new_post['id'] = len(posts) + 1
+        # Initialize likes to 0
+        new_post['likes'] = 0  
         posts.append(new_post)
         save_posts(posts)
         return jsonify(new_post), 201
@@ -70,6 +72,18 @@ def get_posts():
         posts_to_return = sorted(posts_to_return, key=lambda post: post.get(sort_field, ""), reverse=reverse)
 
     return jsonify(posts_to_return)
+
+@app.route('/api/posts/<int:post_id>/like', methods=['GET'])
+def like_post(post_id):
+    posts = load_posts()
+    post_to_like = next((post for post in posts if post['id'] == post_id), None)
+    if post_to_like is None:
+        return jsonify({"error": f"No post found with id {post_id}"}), 404
+    
+    # Increment the likes count
+    post_to_like['likes'] = post_to_like.get('likes', 0) + 1
+    save_posts(posts)
+    return jsonify(post_to_like), 200
 
 
 @app.route('/api/posts/<int:post_id>', methods=['DELETE', 'PUT'])

@@ -3,77 +3,96 @@
         "id": 1,
         "title": "First post",
         "content": "We're excited to launch our new project. Stay tuned for weekly insights and tutorials.",
-        "author": "Admin",
-        "date": "2023-06-01"
+        "author": "Admin2",
+        "date": "2023-06-01",
+        "likes": 2
     },
     {
         "id": 2,
         "title": "Second post",
         "content": "We're excited to launch our new project. Stay tuned for weekly insights and tutorials.",
         "author": "Editor",
-        "date": "2023-07-03"
+        "date": "2023-07-03",
+        "likes": 0
     },
     {
         "id": 3,
         "title": "How to Get Started",
         "content": "Begin by exploring our documentation and checking out the example projects.",
         "author": "Jane Doe",
-        "date": "2023-10-04"
+        "date": "2023-10-04",
+        "likes": 0
     },
     {
         "id": 4,
         "title": "Tips for Productivity",
         "content": "Break work into focused sprints and avoid multitasking to stay efficient.",
         "author": "John Smith",
-        "date": "2024-02-06"
+        "date": "2024-02-06",
+        "likes": 0
     },
     {
         "id": 5,
         "title": "Meet the Team",
         "content": "We're a small group of developers passionate about open-source tools.",
         "author": "Team Lead",
-        "date": "2024-04-08"
+        "date": "2024-04-08",
+        "likes": 0
     },
     {
         "id": 6,
         "title": "Roadmap for 2025",
         "content": "Our goals include feature expansion, improved UX, and better mobile support.",
         "author": "Product Manager",
-        "date": "2024-09-10"
+        "date": "2024-09-10",
+        "likes": 0
     },
     {
         "id": 7,
         "title": "Community Shoutout",
         "content": "Big thanks to everyone who contributed feedback and helped squash bugs!",
         "author": "Moderator",
-        "date": "2024-12-12"
+        "date": "2024-12-12",
+        "likes": 0
     },
     {
         "id": 8,
         "title": "Behind the Scenes",
         "content": "Here\u2019s a look at how we prototype ideas and iterate through designs.",
         "author": "UX Designer",
-        "date": "2025-01-14"
+        "date": "2025-01-14",
+        "likes": 0
     },
     {
         "id": 9,
         "title": "Security Best Practices",
         "content": "Always validate input, use HTTPS, and keep dependencies up to date.",
         "author": "Security Lead",
-        "date": "2025-02-16"
+        "date": "2025-02-16",
+        "likes": 0
     },
     {
         "id": 10,
         "title": "Thank You!",
         "content": "We appreciate your support and look forward to what\u2019s next together.",
         "author": "Admin",
-        "date": "2025-03-18"
+        "date": "2025-03-18",
+        "likes": 0
     },
     {
         "title": "New Test",
         "content": "This is the updated post.",
         "author": "Jon-Mark",
         "date": "2025-03-29",
-        "id": 11
+        "id": 11,
+        "likes": 0
+    },
+    {
+        "title": "This is a test",
+        "content": "Testing if placeholder text comes back",
+        "author": "JM",
+        "date": "2025-03-30",
+        "id": 13,
+        "likes": 0
     }
 ]

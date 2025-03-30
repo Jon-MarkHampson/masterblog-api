@@ -89,8 +89,8 @@ body {
 
 .buttons-wrapper {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-direction: row;
+  justify-content: flex-end;
   gap: 5px;
   margin-top: 20px;
 }
@@ -116,4 +116,26 @@ body {
   flex-direction: column;
   justify-content: space-between;
   gap: 5px;
+}
+
+.new-post-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title-author-date-wrapper {
+  width: 100%;
+}
+
+.content-wrapper {
+  width: 100%;
+}
+
+.post .post-like {
+  background-color: #28a745;
+}
+
+.post .post-like:hover {
+  background-color: #005113;
 }

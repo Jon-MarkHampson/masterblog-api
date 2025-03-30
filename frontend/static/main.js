@@ -33,8 +33,9 @@ function loadPosts() {
                 <p>Author: ${post.author}</p>
                 <p>Date: ${post.date}</p>
                 <div class="buttons-wrapper">
+                <button class="post-like" onclick="likePost(${post.id})">Like ${post.likes}</button>
                 <button class="post-update" onclick="updatePost(event, ${post.id})">Update</button>
-                <button class="post-delete" (${post.id})">Delete</button>
+                <button class="post-delete" onclick="deletePost(${post.id})">Delete</button>
                 </div>`;
                 postContainer.appendChild(postDiv);
             });
@@ -48,19 +49,53 @@ function addPost() {
     var baseUrl = document.getElementById('api-base-url').value;
     var postTitle = document.getElementById('post-title').value;
     var postContent = document.getElementById('post-content').value;
-
+    var postAuthor = document.getElementById('post-author').value;
+    var postDate = document.getElementById('post-date').value;
+    
+    // Validate the input fields
+    if (!postTitle || !postContent || !postAuthor || !postDate) {
+        alert('Please fill in all fields.');
+        return;
+    }
+    
     // Use the Fetch API to send a POST request to the /posts endpoint
     fetch(baseUrl + '/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: postTitle, content: postContent })
+        body: JSON.stringify({
+            title: postTitle,
+            content: postContent,
+            author: postAuthor,
+            date: postDate
+        })
     })
-    .then(response => response.json())  // Parse the JSON data from the response
+    .then(response => response.json())
     .then(post => {
         console.log('Post added:', post);
-        loadPosts(); // Reload the posts after adding a new one
+        // Clear the input fields, allowing the placeholder text to show again
+        document.getElementById('post-title').value = "";
+        document.getElementById('post-content').value = "";
+        document.getElementById('post-author').value = "";
+        document.getElementById('post-date').value = "";
+        
+        loadPosts();
     })
-    .catch(error => console.error('Error:', error));  // If an error occurs, log it to the console
+    .catch(error => console.error('Error:', error));
+}
+
+// Function to like a post
+function likePost(postId) {
+    var baseUrl = document.getElementById('api-base-url').value;
+
+    fetch(baseUrl + '/posts/' + postId + '/like', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Post liked:', data);
+        loadPosts();
+    })
+    .catch(error => console.error('Error:', error));
 }
 
 // Function to send a DELETE request to the API to delete a post
