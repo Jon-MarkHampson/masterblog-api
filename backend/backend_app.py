@@ -25,7 +25,7 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 def load_posts():
     """Load posts from the JSON file."""
     try:
-        with open(POSTS_PATH, 'r') as handle:
+        with open(POSTS_PATH, 'r', encoding='utf-8') as handle:
             return json.load(handle)
     except FileNotFoundError:
         return []
@@ -33,7 +33,7 @@ def load_posts():
 def save_posts(posts):
     """Save posts to the JSON file."""
     try:
-        with open(POSTS_PATH, 'w') as handle:
+        with open(POSTS_PATH, 'w', encoding='utf-8') as handle:
             json.dump(posts, handle, indent=4)
     except Exception as e:
         print(f"Error saving posts: {e}")
